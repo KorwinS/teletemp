@@ -9,9 +9,9 @@
 <body>
     <p>
         [global_tags]<br>
-        {{ range $key, $value := . }}
-        {{ $key }} = "{{ $value }}"<br>
-        {{end}}
+        Environment = "{{ index . "env" }}"<br>
+        Role = "{{ index . "role" }}"<br>
+        Application = "{{ index . "app" }}"<br>
     </p>
 </body>
 </html>
