@@ -9,8 +9,8 @@
 <body>
     <p>
         [global_tags]<br>
-        {{range .}}
-        {{.}}<br>
+        {{ range $key, $value := . }}
+        {{ $key }} = "{{ $value }}"<br>
         {{end}}
     </p>
 </body>

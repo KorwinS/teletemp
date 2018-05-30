@@ -14,21 +14,6 @@ func envForm(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Get the input from the form and genrate the tags
-func telegraf(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "POST" {
-		t, _ := template.ParseFiles("telegraf.html")
-
-		globalTags := []string{
-			"Environment = \"" + r.PostFormValue("env") + "\"",
-			"Role = \"" + r.PostFormValue("role") + "\"",
-			"Application = \"" + r.PostFormValue("app") + "\"",
-		}
-
-		t.Execute(w, globalTags)
-	}
-}
-
 func main() {
 	http.HandleFunc("/", envForm) // setting router rule
 	http.HandleFunc("/telegraf", telegraf)
