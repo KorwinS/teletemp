@@ -13,15 +13,15 @@ func telegraf(w http.ResponseWriter, r *http.Request) {
 			"role": r.PostFormValue("role"),
 			"app": r.PostFormValue("app"),
 		}
+
+		// Based on the host type selected on the form, return 
+		// the proper template
 		if r.PostFormValue("hostType") == "Linux" {
 			t, _ := template.ParseFiles("telegraf-linux.html")
 			t.Execute(w, gT)
-	
 		} else {
 			t, _ := template.ParseFiles("telegraf-windows.html")
 			t.Execute(w, gT)
-	
 		}
-		
 	}
 }
