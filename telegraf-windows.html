@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Telegraf Config</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <p>
+        [global_tags]<br>
+        Environment = "{{ index . "env" }}"<br>
+        Role = "{{ index . "role" }}"<br>
+        Application = "{{ index . "app" }}"<br>
+        [[inputs.win_perf_counters]]<br>
+        [[inputs.win_perf_counters.object]]<br>
+        # Processor usage, alternative to native, reports on a per core.<br>
+        ObjectName = "Processor"<br>
+        Instances = ["*"]<br>
+            Counters = [<br>
+            "% Idle Time",<br>
+            "% Interrupt Time",<br>
+            "% Privileged Time",<br>
+            "% User Time",<br>
+            "% Processor Time",<br>
+            ]<br>
+            Measurement = "win_cpu"<br>
+            # Set to true to include _Total instance when querying for all (*).<br>
+            IncludeTotal=true<br>
+
+        [[inputs.win_perf_counters.object]]<br>
+            # Disk times and queues<br>
+            ObjectName = "LogicalDisk"<br>
+            Instances = ["*"]<br>
+            Counters = [<br>
+            "Disk Read Bytes/sec",<br>
+            "Disk Write Bytes/sec",<br>
+            "Free Megabytes",<br>
+            "% Free Space",<br>
+            "% Idle Time",<br>
+            "Avg. Disk Read Queue Length",<br>
+            "Avg. Disk Write Queue Length",<br>
+            "Avg. Disk sec/Write",<br>
+            "Avg. Disk sec/Read",<br>
+            ]<br>
+            Measurement = "win_disk"<br>
+            # Set to true to include _Total instance when querying for all (*).<br>
+            #IncludeTotal=false<br>
+
+        [[inputs.win_perf_counters.object]]<br>
+            ObjectName = "System"<br>
+            Counters = [<br>
+            "Context Switches/sec",<br>
+            "System Calls/sec",<br>
+            "Exception Dispatches/sec",<br>
+            "Processor Queue Length",<br>
+            ]<br>
+            Instances = ["------"]<br>
+            Measurement = "win_system"<br>
+            # Set to true to include _Total instance when querying for all (*).<br>
+            #IncludeTotal=false<br>
+
+        [[inputs.win_perf_counters.object]]<br>
+            # Example query where the Instance portion must be removed to get data back,<br>
+            # such as from the Memory object.<br>
+            ObjectName = "Memory"<br>
+            Counters = [<br>
+            "Available Bytes",<br>
+            "Committed Bytes",<br>
+            "Cache Bytes",<br>
+            "Cache Faults/sec",<br>
+            "Demand Zero Faults/sec",<br>
+            "Page Faults/sec",<br>
+            "Pages/sec",<br>
+            "Transition Faults/sec",<br>
+            "Pool Nonpaged Bytes",<br>
+            "Pool Paged Bytes",<br>
+            ]<br>
+            # Use 6 x - to remove the Instance bit from the query.<br>
+            Instances = ["------"]<br>
+            Measurement = "win_mem"<br>
+            # Set to true to include _Total instance when querying for all (*).<br>
+            #IncludeTotal=false<br>
+
+        [[inputs.win_perf_counters.object]]<br>
+            # more counters for the Network Interface Object can be found at<br>
+            # https://msdn.microsoft.com/en-us/library/ms803962.aspx<br>
+            ObjectName = "Network Interface"<br>
+            Counters = [<br>
+            "Bytes Received/sec",<br>
+            "Bytes Sent/sec",<br>
+            "Output Queue Length",<br>
+            "Packets Outbound Errors",<br>
+            "Packets Received Errors",<br>
+            ]<br>
+            Instances = ["*"] # Use 6 x - to remove the Instance bit from the query.<br>
+            Measurement = "win_net"<br>
+            #IncludeTotal=false #Set to true to include _Total instance when querying for all (*).<br>
+    </p>
+</body>
+</html>
